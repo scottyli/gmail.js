@@ -1235,6 +1235,7 @@ module.exports = function(localJQuery, opts) {
           // console.log('reply_forward handler called', match, callback);
 
           // look back up the DOM tree for M9 (the main reply/forward node)
+          var originalMatch = match;
           match = match.closest('div.M9');
           if (!match.length) return;
           match = new api.dom.compose(match);
@@ -1243,6 +1244,16 @@ module.exports = function(localJQuery, opts) {
             type = match.find('input[name=subject]').val().indexOf('Fw') == 0 ? 'forward' : 'reply';
           } else {
             type = 'compose';
+
+             var composeWindow = originalMatch.closest('div.AD');
+             composeWindow.find('.Ha').mouseup(function() {
+              if (api.tracker.composeCancelledCallback) {
+                api.tracker.composeCancelledCallback(match);
+              }
+              return true;
+            });
+
+
           }
           callback(match,type);
         }
@@ -1361,6 +1372,10 @@ module.exports = function(localJQuery, opts) {
       api.observe.bind('dom',action,callback);
       // console.log(api.tracker.observing_dom,'dom_watchdog is now:',api.tracker.dom_watchdog);
       return true;
+
+    } else if (action == 'compose_cancelled') {
+      // console.log('set compose cancelled callback');
+      api.tracker.composeCancelledCallback = callback;
 
     // support for gmail interface load event
     } else if(action == 'load') {
