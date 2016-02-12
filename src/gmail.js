@@ -1248,7 +1248,7 @@ module.exports = function(localJQuery, opts) {
             var composeWindow = originalMatch.closest('div.AD');            
             
             composeWindow.find('.Hm > .Hl').mouseup(function(event) {              
-              var action = $(event.target).hasClass("Hk") ? "down" : "up"
+              var action = $(event.target).hasClass("Hl") ? "down" : "up"
               if (api.tracker.composeMinimize) {
                 api.tracker.composeMinimize(match, action);
               }
