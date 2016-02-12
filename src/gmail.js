@@ -1245,14 +1245,28 @@ module.exports = function(localJQuery, opts) {
           } else {
             type = 'compose';
 
-             var composeWindow = originalMatch.closest('div.AD');
-             composeWindow.find('.Ha').mouseup(function() {
-              if (api.tracker.composeCancelledCallback) {
-                api.tracker.composeCancelledCallback(match);
+            var composeWindow = originalMatch.closest('div.AD');            
+            
+            composeWindow.find('.Hm > .Hl').mouseup(function() {
+              if (api.tracker.composeMinimize) {
+                api.tracker.composeMinimize(match);
               }
               return true;
             });
 
+            composeWindow.find('.Hm > .Hq').mouseup(function() {              
+              if (api.tracker.composeFullScreen) {
+                api.tracker.composeFullScreen(match);
+              }
+              return true;
+            });            
+
+            composeWindow.find('.Hm > .Ha').mouseup(function() {
+              if (api.tracker.composeClose) {
+                api.tracker.composeClose(match);
+              }             
+              return true;
+            });
 
           }
           callback(match,type);
@@ -1373,12 +1387,17 @@ module.exports = function(localJQuery, opts) {
       // console.log(api.tracker.observing_dom,'dom_watchdog is now:',api.tracker.dom_watchdog);
       return true;
 
-    } else if (action == 'compose_cancelled') {
-      // console.log('set compose cancelled callback');
-      api.tracker.composeCancelledCallback = callback;
-
-    // support for gmail interface load event
+    } else if (action == 'compose_close') {      
+      api.tracker.composeClose = callback;
+    
+    } else if (action == 'compose_fullscreen') {      
+      api.tracker.composeFullScreen = callback;
+        
+    } else if (action == 'compose_minimize') {      
+      api.tracker.composeMinimize = callback;    
+    
     } else if(action == 'load') {
+      // support for gmail interface load event
 
       // wait until the gmail interface has finished loading and then
       // execute the passed handler. If interface is already loaded,
