@@ -1247,21 +1247,24 @@ module.exports = function(localJQuery, opts) {
 
             var composeWindow = originalMatch.closest('div.AD');            
             
-            composeWindow.find('.Hm > .Hl').mouseup(function() {
+            composeWindow.find('.Hm > .Hl').mouseup(function(event) {              
+              var action = $(event.target).hasClass("Hk") ? "down" : "up"
               if (api.tracker.composeMinimize) {
-                api.tracker.composeMinimize(match);
+                api.tracker.composeMinimize(match, action);
               }
               return true;
             });
 
-            composeWindow.find('.Hm > .Hq').mouseup(function() {              
+            composeWindow.find('.Hm > .Hq').mouseup(function(event) {              
+              var action = $(event.target).hasClass("aUH") ? "down" : "up"
               if (api.tracker.composeFullScreen) {
-                api.tracker.composeFullScreen(match);
+                api.tracker.composeFullScreen(match, action);
               }
               return true;
             });            
 
-            composeWindow.find('.Hm > .Ha').mouseup(function() {
+            composeWindow.find('.Hm > .Ha').mouseup(function(event) {
+              
               if (api.tracker.composeClose) {
                 api.tracker.composeClose(match);
               }             
